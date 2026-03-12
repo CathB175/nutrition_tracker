@@ -759,14 +759,14 @@ async function loadFoods() {
 
 async function loadRecipes() {
   const { data, error } = await db.from('recipes').select(`
-    *, recipe_ingredients ( quantity, unit, food:foods(*) )
+    *, recipe_ingredients ( quantity, unit, foods(*) )
   `).order('name');
 
   if (!error) {
     recipes = (data || []).map(r => ({
       ...r,
       ingredients: r.recipe_ingredients.map(ri => ({
-        food: ri.food,
+        food: ri.foods,
         quantity: ri.quantity,
         unit: ri.unit
       }))
