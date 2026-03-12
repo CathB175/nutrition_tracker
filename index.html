@@ -9,6 +9,17 @@
     <link rel="stylesheet" crossorigin href="/nutrition_tracker/assets/index-QJgjq4mU.css">
   </head>
   <body>
+    <div id="login-form">
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="signIn()">Login</button>
+</div>
+
+<div id="content" style="display:none;">
+  <!-- Your actual site content goes here -->
+  <h1>Welcome back!</h1>
+  <div id="data-container"></div>
+</div>
     <div id="root"></div>
   </body>
 </html>
