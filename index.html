@@ -990,7 +990,7 @@ function updateIngredientQty(idx, val) {
   updateLiveNutrition();
 }
 
-functionfunction updateIngredientsList() {
+function updateIngredientsList() {
   const wrap = document.getElementById('recipe-ingredients-list');
   const itemsEl = document.getElementById('recipe-ingredients-items');
   const validIngredients = currentIngredients.map((ing, realIdx) => ({ ...ing, realIdx })).filter(ing => ing.food);
