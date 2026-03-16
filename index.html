@@ -1005,10 +1005,7 @@ function updateIngredientsList() {
   if (!validIngredients.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
 
-  const totalCal = validIngredients.reduce((s, ing) => {
-    if (!ing.food.serving_size) return s;
-    return s + ing.food.calories * (ing.quantity / ing.food.serving_size);
-  }, 0);
+ 
 
   itemsEl.innerHTML = validIngredients.map(ing => {
     const ratio = ing.quantity / ing.food.serving_size;
@@ -1037,8 +1034,9 @@ function updateIngredientsList() {
         </div>
       </div>
     </div>`;
-  }).join('');
-
+ }).join('');
+  lucide.createIcons();
+}
 
 // ── LIVE NUTRITION ──
 function calcNutrition(ingredients) {
