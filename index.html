@@ -1018,8 +1018,13 @@ function updateIngredientsList() {
   lucide.createIcons();
 }
 
- const totalCal = currentIngredients.filter(ing => ing.food).reduce((s, ing) => s + ing.food.calories * (ing.quantity / ing.food.serving_size), 0);
- itemsEl.innerHTML = currentIngredients.filter(ing => ing.food).map((ing, i) => {
+const totalCal = currentIngredients.reduce((s, ing) => {
+    if (!ing.food || !ing.food.serving_size) return s;
+    return s + ing.food.calories * (ing.quantity / ing.food.serving_size);
+  }, 0);
+
+  itemsEl.innerHTML = currentIngredients.map((ing, i) => {
+    if (!ing.food) return '';
     const contrib = totalCal > 0 ? Math.round((ing.food.calories * ing.quantity / ing.food.serving_size / totalCal) * 100) : 0;
     return `<div class="ingredient-row">
       <span class="ing-name">${esc(ing.food.name)}</span>
@@ -1030,7 +1035,7 @@ function updateIngredientsList() {
         <i data-lucide="x" style="width:12px;height:12px"></i>
       </button>
     </div>`;
- }).filter(Boolean).join('');
+  }).filter(Boolean).join('');
   lucide.createIcons();
 }
 
