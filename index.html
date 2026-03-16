@@ -1082,7 +1082,7 @@ async function saveRecipe() {
       if (error) throw error;
       recipeId = data[0].id;
     }
-    const ings = currentIngredients.map(ing => ({ recipe_id: recipeId, food_id: ing.food.id, quantity: ing.quantity, unit: ing.unit }));
+    const ings = currentIngredients.filter(ing => ing.food && ing.food.id).map(ing => ({ recipe_id: recipeId, food_id: ing.food.id, quantity: ing.quantity, unit: ing.unit }));
     const { error: ingErr } = await db.from('recipe_ingredients').insert(ings);
     if (ingErr) throw ingErr;
     await loadRecipes(); cancelRecipeForm();
