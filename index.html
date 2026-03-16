@@ -260,8 +260,10 @@
     .ingredients-list h5 { font-size: 13px; margin-bottom: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
 
     .ingredient-row {
-      display: grid;
-      grid-template-columns: 1fr 120px 80px 30px;
+    .ingredient-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 12px 0;
       gap: 8px; align-items: center;
       padding: 8px 0; border-bottom: 1px solid #3d4a5c; font-size: 14px;
     }
@@ -1009,19 +1011,33 @@ function updateIngredientsList() {
   }, 0);
 
   itemsEl.innerHTML = validIngredients.map(ing => {
-    const contrib = totalCal > 0 ? Math.round((ing.food.calories * ing.quantity / ing.food.serving_size / totalCal) * 100) : 0;
+    const ratio = ing.quantity / ing.food.serving_size;
+    const cal   = Math.round(ing.food.calories      * ratio * 10) / 10;
+    const prot  = Math.round(ing.food.protein        * ratio * 10) / 10;
+    const carbs = Math.round(ing.food.carbohydrates  * ratio * 10) / 10;
+    const fat   = Math.round(ing.food.fat            * ratio * 10) / 10;
+    const sugar = Math.round(ing.food.sugar          * ratio * 10) / 10;
     return `<div class="ingredient-row">
-      <span class="ing-name">${esc(ing.food.name)}</span>
-      <input type="number" step="0.1" class="ing-qty-input" value="${ing.quantity}"
-        oninput="updateIngredientQty(${ing.realIdx}, this.value)" /> ${esc(ing.unit)}
-      <span class="ing-contrib">${contrib}% cal</span>
-      <button class="btn btn-red" style="padding:4px 7px" onclick="removeIngredient(${ing.realIdx})">
-        <i data-lucide="x" style="width:12px;height:12px"></i>
-      </button>
+      <div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span class="ing-name" style="font-size:15px;color:#ffaa00">${esc(ing.food.name)}</span>
+        <button class="btn btn-red" style="padding:4px 7px" onclick="removeIngredient(${ing.realIdx})">
+          <i data-lucide="x" style="width:12px;height:12px"></i>
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;grid-column:1/-1">
+        <input type="number" step="0.1" class="ing-qty-input" value="${ing.quantity}"
+          oninput="updateIngredientQty(${ing.realIdx}, this.value)" />
+        <span style="color:#666;font-size:12px">${esc(ing.unit)}</span>
+        <div style="display:flex;gap:12px;margin-left:10px;flex-wrap:wrap">
+          <span style="font-size:12px"><span style="color:#666">cal</span> <strong style="color:#00ff88">${cal}</strong></span>
+          <span style="font-size:12px"><span style="color:#666">prot</span> <strong style="color:#f0f0f0">${prot}g</strong></span>
+          <span style="font-size:12px"><span style="color:#666">carbs</span> <strong style="color:#f0f0f0">${carbs}g</strong></span>
+          <span style="font-size:12px"><span style="color:#666">fat</span> <strong style="color:#f0f0f0">${fat}g</strong></span>
+          <span style="font-size:12px"><span style="color:#666">sugar</span> <strong style="color:#f0f0f0">${sugar}g</strong></span>
+        </div>
+      </div>
     </div>`;
   }).join('');
-  lucide.createIcons();
-}
 
 
 // ── LIVE NUTRITION ──
