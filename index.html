@@ -693,8 +693,8 @@ async function loadFoods() {
 }
 
 async function loadRecipes() {
-  const { data, error } = await db.from('nutrition_recipes').select(`
-    *, recipe_ingredients ( quantity, unit, foods!recipe_ingredients_food_id_fkey(*) )
+ const { data, error } = await db.from('nutrition_recipes').select(`
+    *, recipe_ingredients ( quantity, unit, food_id, foods(*) )
   `).order('name');
   if (error) { console.error(error); return; }
  recipes = (data || []).map(r => ({
