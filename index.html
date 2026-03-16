@@ -1018,26 +1018,7 @@ function updateIngredientsList() {
   lucide.createIcons();
 }
 
-const totalCal = currentIngredients.reduce((s, ing) => {
-    if (!ing.food || !ing.food.serving_size) return s;
-    return s + ing.food.calories * (ing.quantity / ing.food.serving_size);
-  }, 0);
 
-  itemsEl.innerHTML = currentIngredients.map((ing, i) => {
-    if (!ing.food) return '';
-    const contrib = totalCal > 0 ? Math.round((ing.food.calories * ing.quantity / ing.food.serving_size / totalCal) * 100) : 0;
-    return `<div class="ingredient-row">
-      <span class="ing-name">${esc(ing.food.name)}</span>
-      <input type="number" step="0.1" class="ing-qty-input" value="${ing.quantity}"
-        oninput="updateIngredientQty(${i}, this.value)" /> ${esc(ing.unit)}
-      <span class="ing-contrib">${contrib}% cal</span>
-      <button class="btn btn-red" style="padding:4px 7px" onclick="removeIngredient(${i})">
-        <i data-lucide="x" style="width:12px;height:12px"></i>
-      </button>
-    </div>`;
-  }).filter(Boolean).join('');
-  lucide.createIcons();
-}
 
 // ── LIVE NUTRITION ──
 function calcNutrition(ingredients) {
