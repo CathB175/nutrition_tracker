@@ -1154,7 +1154,7 @@ function renderRecipes() {
         <div>
           <div style="font-size:13px;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Ingredients</div>
           <div class="ingredients-display">
-            ${r.ingredients.map(ing=>`<div class="ingredient-display-item">• ${ing.quantity}${esc(ing.unit)} ${esc(ing.food.name)}</div>`).join('')}
+           ${r.ingredients.filter(ing => ing.food).map(ing=>`<div class="ingredient-display-item">• ${ing.quantity}${esc(ing.unit)} ${esc(ing.food.name)}</div>`).join('')}
           </div>
         </div>
       </div>`;
