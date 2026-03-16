@@ -702,7 +702,7 @@ async function loadRecipes() {
     ingredients: r.recipe_ingredients
       .filter(ri => ri['foods!recipe_ingredients_food_id_fkey'] !== null)
       .map(ri => ({
-        food: ri['foods!recipe_ingredients_food_id_fkey'],
+       food: ri['foods'],
         quantity: ri.quantity,
         unit: ri.unit
       }))
