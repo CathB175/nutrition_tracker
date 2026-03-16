@@ -911,6 +911,9 @@ function startEditRecipe(recipe) {
   document.getElementById('rf-description').value = recipe.description || '';
   document.getElementById('rf-servings').value    = recipe.total_servings;
   currentIngredients = recipe.ingredients.map(i => ({ ...i, quantity: i.quantity }));
+
+console.log('Loaded ingredients:', JSON.stringify(currentIngredients));
+  
   document.getElementById('recipe-form-title').textContent   = 'Edit Recipe';
   document.getElementById('recipe-save-btn').textContent     = 'Update Recipe';
   document.getElementById('recipe-cancel-btn').style.display = 'inline-flex';
