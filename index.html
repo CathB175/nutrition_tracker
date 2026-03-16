@@ -160,8 +160,9 @@
     }
     .form-group.amber label { color: #ffaa00; }
     .form-group input, .form-group select { width: 100%; }
-    .serving-row { display: flex; gap: 10px; }
-    .serving-row input { flex: 1; }
+   .serving-row { display: flex; gap: 10px; }
+.serving-row input { flex: 1; min-width: 80px; }
+.serving-row select { flex-shrink: 0; }
     .form-actions { display: flex; gap: 12px; margin-top: 22px; }
     .form-actions .btn { flex: 1; padding: 14px; font-size: 14px; }
 
@@ -863,7 +864,7 @@ function renderFoods() {
         <div><h3>${esc(f.name)}</h3><div class="serving">Per ${f.serving_size}${esc(f.serving_unit)}</div></div>
         <div class="food-card-actions">
           <div class="cal-badge">${f.calories} CAL</div>
-          <button class="btn btn-amber" style="padding:8px 11px" onclick="startEditFood(${f.id})"><i data-lucide="edit-2" style="width:14px;height:14px"></i></button>
+          <button class="btn btn-amber" style="padding:8px 11px" onclick="startEditFood(foods.find(x=>x.id===${f.id}))"><i data-lucide="edit-2" style="width:14px;height:14px"></i></button>
           <button class="btn btn-red" style="padding:8px 11px" onclick="deleteFood(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
         </div>
       </div>
