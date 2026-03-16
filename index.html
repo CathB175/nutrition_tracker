@@ -990,34 +990,33 @@ function updateIngredientQty(idx, val) {
   updateLiveNutrition();
 }
 
-function updateIngredientsList() {
+functionfunction updateIngredientsList() {
   const wrap = document.getElementById('recipe-ingredients-list');
   const itemsEl = document.getElementById('recipe-ingredients-items');
-  document.getElementById('ing-count').textContent = currentIngredients.length;
-  if (!currentIngredients.length) { wrap.style.display = 'none'; return; }
+  const validIngredients = currentIngredients.map((ing, realIdx) => ({ ...ing, realIdx })).filter(ing => ing.food);
+  document.getElementById('ing-count').textContent = validIngredients.length;
+  if (!validIngredients.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
 
-  const totalCal = currentIngredients.reduce((s, ing) => {
-    if (!ing.food || !ing.food.serving_size) return s;
+  const totalCal = validIngredients.reduce((s, ing) => {
+    if (!ing.food.serving_size) return s;
     return s + ing.food.calories * (ing.quantity / ing.food.serving_size);
   }, 0);
 
-  itemsEl.innerHTML = currentIngredients.map((ing, i) => {
-    if (!ing.food) return '';
+  itemsEl.innerHTML = validIngredients.map(ing => {
     const contrib = totalCal > 0 ? Math.round((ing.food.calories * ing.quantity / ing.food.serving_size / totalCal) * 100) : 0;
     return `<div class="ingredient-row">
       <span class="ing-name">${esc(ing.food.name)}</span>
       <input type="number" step="0.1" class="ing-qty-input" value="${ing.quantity}"
-        oninput="updateIngredientQty(${i}, this.value)" /> ${esc(ing.unit)}
+        oninput="updateIngredientQty(${ing.realIdx}, this.value)" /> ${esc(ing.unit)}
       <span class="ing-contrib">${contrib}% cal</span>
-      <button class="btn btn-red" style="padding:4px 7px" onclick="removeIngredient(${i})">
+      <button class="btn btn-red" style="padding:4px 7px" onclick="removeIngredient(${ing.realIdx})">
         <i data-lucide="x" style="width:12px;height:12px"></i>
       </button>
     </div>`;
-  }).filter(Boolean).join('');
+  }).join('');
   lucide.createIcons();
 }
-
 
 
 // ── LIVE NUTRITION ──
