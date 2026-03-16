@@ -697,13 +697,15 @@ async function loadRecipes() {
     *, recipe_ingredients ( quantity, unit, foods!recipe_ingredients_food_id_fkey(*) )
   `).order('name');
   if (error) { console.error(error); return; }
-  recipes = (data || []).map(r => ({
+ recipes = (data || []).map(r => ({
     ...r,
-    ingredients: r.recipe_ingredients.map(ri => ({
-      food: ri['foods!recipe_ingredients_food_id_fkey'],
-      quantity: ri.quantity,
-      unit: ri.unit
-    }))
+    ingredients: r.recipe_ingredients
+      .filter(ri => ri['foods!recipe_ingredients_food_id_fkey'] !== null)
+      .map(ri => ({
+        food: ri['foods!recipe_ingredients_food_id_fkey'],
+        quantity: ri.quantity,
+        unit: ri.unit
+      }))
   }));
   renderRecipes();
   updateStats();
